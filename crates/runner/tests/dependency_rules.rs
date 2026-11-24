@@ -78,6 +78,20 @@ fn accepts_allowed_graph() {
 fn workspace_follows_adr_0002() {
     let (members, edges) = workspace_graph();
 
+    // The rule first, so a new or forbidden crate gets the ADR-0002 message.
+    let member_refs: Vec<&str> = members.iter().map(String::as_str).collect();
+    let edge_refs: Vec<(&str, &str)> = edges
+        .iter()
+        .map(|(a, b)| (a.as_str(), b.as_str()))
+        .collect();
+    let found = violations(&member_refs, &edge_refs, ALLOWED);
+    assert!(
+        found.is_empty(),
+        "crate dependency rule broken:\n{}",
+        found.join("\n")
+    );
+
+    // Then guard against a vacuous pass, e.g. metadata parsed as empty.
     let mut sorted = members.clone();
     sorted.sort();
     assert_eq!(sorted, ["engine", "game", "graphics", "runner"]);
@@ -89,18 +103,6 @@ fn workspace_follows_adr_0002() {
             );
         }
     }
-
-    let members: Vec<&str> = members.iter().map(String::as_str).collect();
-    let edges: Vec<(&str, &str)> = edges
-        .iter()
-        .map(|(a, b)| (a.as_str(), b.as_str()))
-        .collect();
-    let found = violations(&members, &edges, ALLOWED);
-    assert!(
-        found.is_empty(),
-        "crate dependency rule broken:\n{}",
-        found.join("\n")
-    );
 }
 
 /// Workspace member names, and direct dependency edges between members
