@@ -1,0 +1,5 @@
+interface:
+  display_name: "Whiteboard"
+  short_description: "Explore an idea's directions before grilling it"
+policy:
+  allow_implicit_invocation: false

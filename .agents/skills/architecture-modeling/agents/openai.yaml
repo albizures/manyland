@@ -1,0 +1,3 @@
+interface:
+  display_name: "Architecture Modeling"
+  short_description: "Model Zenith architecture changes against the architecture repo"
