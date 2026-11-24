@@ -14,10 +14,20 @@ The engine must run headless, and output must be verifiable by tests and agents 
 - `crates/runner` (binary): wires `game` to a renderer from `graphics`, chosen with `--renderer`; content comes from `--assets <dir>`.
 - Game content lives in `assets/` at the repo root.
 
-Dependency rule: `game` never depends on `graphics`. A check enforces it.
+Dependency rule: each crate may depend directly only on the workspace crates listed here. In particular, `game` never depends on `graphics`.
+
+| crate      | may depend on                |
+| ---------- | ---------------------------- |
+| `engine`   | (no workspace crates)        |
+| `graphics` | `engine`                     |
+| `game`     | `engine`                     |
+| `runner`   | `engine`, `graphics`, `game` |
+
+Every dependency kind counts: normal, build and dev. A new crate must be added to this table and to the check in `crates/runner/tests/dependency_rules.rs`, or `cargo test` fails.
 
 ## Consequences
 
 - Draw commands carry ids, so a text renderer can map them to characters.
 - Three verification layers, cheapest first: game state, the command list, rendered text frames.
 - Choosing an output is a CLI flag, usable by agents.
+- Tests that need rendered text frames live in `runner`, the only crate that sees both `game` and `graphics`.

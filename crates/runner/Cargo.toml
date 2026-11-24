@@ -1,0 +1,13 @@
+[package]
+name = "runner"
+edition.workspace = true
+version.workspace = true
+publish.workspace = true
+
+[dependencies]
+engine = { path = "../engine" }
+graphics = { path = "../graphics" }
+game = { path = "../game" }
+
+[dev-dependencies]
+serde_json = "1"
