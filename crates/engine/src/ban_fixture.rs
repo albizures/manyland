@@ -2,7 +2,7 @@
 //!
 //! Compiled only under `--cfg ban_fixture`, by `crates/runner/tests/determinism_bans.rs`,
 //! which checks that each `// ban: <lint>` line is reported. Never use this module.
-#![allow(dead_code, clippy::no_effect_underscore_binding)]
+#![allow(dead_code)]
 
 pub fn floats(
     a: f32, // ban: clippy::disallowed_types

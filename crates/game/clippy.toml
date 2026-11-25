@@ -1,4 +1,4 @@
-# Determinism bans (ADR-0001). Must stay byte-identical to crates/game/clippy.toml;
+# Determinism bans (ADR-0001). crates/engine and crates/game hold byte-identical copies;
 # crates/runner/tests/determinism_bans.rs checks that and that each ban fires.
 disallowed-types = [
     { path = "f32", reason = "no floats (ADR-0001); use integers or fixed-point" },
