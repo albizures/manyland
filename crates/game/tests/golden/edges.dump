@@ -1,0 +1,900 @@
+0 cls 0
+0 rectfill 11 83 16 16 7
+0 spr 0 11 83
+1 cls 0
+1 rectfill 10 82 16 16 7
+1 spr 0 10 82
+2 cls 0
+2 rectfill 9 81 16 16 7
+2 spr 0 9 81
+3 cls 0
+3 rectfill 8 80 16 16 7
+3 spr 0 8 80
+4 cls 0
+4 rectfill 7 79 16 16 7
+4 spr 0 7 79
+5 cls 0
+5 rectfill 6 78 16 16 7
+5 spr 0 6 78
+6 cls 0
+6 rectfill 5 77 16 16 7
+6 spr 0 5 77
+7 cls 0
+7 rectfill 4 76 16 16 7
+7 spr 0 4 76
+8 cls 0
+8 rectfill 3 75 16 16 7
+8 spr 0 3 75
+9 cls 0
+9 rectfill 2 74 16 16 7
+9 spr 0 2 74
+10 cls 0
+10 rectfill 1 73 16 16 7
+10 spr 0 1 73
+11 cls 0
+11 rectfill 0 72 16 16 7
+11 spr 0 0 72
+12 cls 0
+12 rectfill 0 71 16 16 7
+12 spr 0 0 71
+13 cls 0
+13 rectfill 0 70 16 16 7
+13 spr 0 0 70
+14 cls 0
+14 rectfill 0 69 16 16 7
+14 spr 0 0 69
+15 cls 0
+15 rectfill 0 68 16 16 7
+15 spr 0 0 68
+16 cls 0
+16 rectfill 0 67 16 16 7
+16 spr 0 0 67
+17 cls 0
+17 rectfill 0 66 16 16 7
+17 spr 0 0 66
+18 cls 0
+18 rectfill 0 65 16 16 7
+18 spr 0 0 65
+19 cls 0
+19 rectfill 0 64 16 16 7
+19 spr 0 0 64
+20 cls 0
+20 rectfill 0 63 16 16 7
+20 spr 0 0 63
+21 cls 0
+21 rectfill 0 62 16 16 7
+21 spr 0 0 62
+22 cls 0
+22 rectfill 0 61 16 16 7
+22 spr 0 0 61
+23 cls 0
+23 rectfill 0 60 16 16 7
+23 spr 0 0 60
+24 cls 0
+24 rectfill 0 59 16 16 7
+24 spr 0 0 59
+25 cls 0
+25 rectfill 0 58 16 16 7
+25 spr 0 0 58
+26 cls 0
+26 rectfill 0 57 16 16 7
+26 spr 0 0 57
+27 cls 0
+27 rectfill 0 56 16 16 7
+27 spr 0 0 56
+28 cls 0
+28 rectfill 0 55 16 16 7
+28 spr 0 0 55
+29 cls 0
+29 rectfill 0 54 16 16 7
+29 spr 0 0 54
+30 cls 0
+30 rectfill 0 53 16 16 7
+30 spr 0 0 53
+31 cls 0
+31 rectfill 0 52 16 16 7
+31 spr 0 0 52
+32 cls 0
+32 rectfill 0 51 16 16 7
+32 spr 0 0 51
+33 cls 0
+33 rectfill 0 50 16 16 7
+33 spr 0 0 50
+34 cls 0
+34 rectfill 0 49 16 16 7
+34 spr 0 0 49
+35 cls 0
+35 rectfill 0 48 16 16 7
+35 spr 0 0 48
+36 cls 0
+36 rectfill 0 47 16 16 7
+36 spr 0 0 47
+37 cls 0
+37 rectfill 0 46 16 16 7
+37 spr 0 0 46
+38 cls 0
+38 rectfill 0 45 16 16 7
+38 spr 0 0 45
+39 cls 0
+39 rectfill 0 44 16 16 7
+39 spr 0 0 44
+40 cls 0
+40 rectfill 0 43 16 16 7
+40 spr 0 0 43
+41 cls 0
+41 rectfill 0 42 16 16 7
+41 spr 0 0 42
+42 cls 0
+42 rectfill 0 41 16 16 7
+42 spr 0 0 41
+43 cls 0
+43 rectfill 0 40 16 16 7
+43 spr 0 0 40
+44 cls 0
+44 rectfill 0 39 16 16 7
+44 spr 0 0 39
+45 cls 0
+45 rectfill 0 38 16 16 7
+45 spr 0 0 38
+46 cls 0
+46 rectfill 0 37 16 16 7
+46 spr 0 0 37
+47 cls 0
+47 rectfill 0 36 16 16 7
+47 spr 0 0 36
+48 cls 0
+48 rectfill 0 35 16 16 7
+48 spr 0 0 35
+49 cls 0
+49 rectfill 0 34 16 16 7
+49 spr 0 0 34
+50 cls 0
+50 rectfill 0 33 16 16 7
+50 spr 0 0 33
+51 cls 0
+51 rectfill 0 32 16 16 7
+51 spr 0 0 32
+52 cls 0
+52 rectfill 0 31 16 16 7
+52 spr 0 0 31
+53 cls 0
+53 rectfill 0 30 16 16 7
+53 spr 0 0 30
+54 cls 0
+54 rectfill 0 29 16 16 7
+54 spr 0 0 29
+55 cls 0
+55 rectfill 0 28 16 16 7
+55 spr 0 0 28
+56 cls 0
+56 rectfill 0 27 16 16 7
+56 spr 0 0 27
+57 cls 0
+57 rectfill 0 26 16 16 7
+57 spr 0 0 26
+58 cls 0
+58 rectfill 0 25 16 16 7
+58 spr 0 0 25
+59 cls 0
+59 rectfill 0 24 16 16 7
+59 spr 0 0 24
+60 cls 0
+60 rectfill 0 23 16 16 7
+60 spr 0 0 23
+61 cls 0
+61 rectfill 0 22 16 16 7
+61 spr 0 0 22
+62 cls 0
+62 rectfill 0 21 16 16 7
+62 spr 0 0 21
+63 cls 0
+63 rectfill 0 20 16 16 7
+63 spr 0 0 20
+64 cls 0
+64 rectfill 0 19 16 16 7
+64 spr 0 0 19
+65 cls 0
+65 rectfill 0 18 16 16 7
+65 spr 0 0 18
+66 cls 0
+66 rectfill 0 17 16 16 7
+66 spr 0 0 17
+67 cls 0
+67 rectfill 0 16 16 16 7
+67 spr 0 0 16
+68 cls 0
+68 rectfill 0 15 16 16 7
+68 spr 0 0 15
+69 cls 0
+69 rectfill 0 14 16 16 7
+69 spr 0 0 14
+70 cls 0
+70 rectfill 0 13 16 16 7
+70 spr 0 0 13
+71 cls 0
+71 rectfill 0 12 16 16 7
+71 spr 0 0 12
+72 cls 0
+72 rectfill 0 11 16 16 7
+72 spr 0 0 11
+73 cls 0
+73 rectfill 0 10 16 16 7
+73 spr 0 0 10
+74 cls 0
+74 rectfill 0 9 16 16 7
+74 spr 0 0 9
+75 cls 0
+75 rectfill 0 8 16 16 7
+75 spr 0 0 8
+76 cls 0
+76 rectfill 0 7 16 16 7
+76 spr 0 0 7
+77 cls 0
+77 rectfill 0 6 16 16 7
+77 spr 0 0 6
+78 cls 0
+78 rectfill 0 5 16 16 7
+78 spr 0 0 5
+79 cls 0
+79 rectfill 0 4 16 16 7
+79 spr 0 0 4
+80 cls 0
+80 rectfill 0 3 16 16 7
+80 spr 0 0 3
+81 cls 0
+81 rectfill 0 2 16 16 7
+81 spr 0 0 2
+82 cls 0
+82 rectfill 0 1 16 16 7
+82 spr 0 0 1
+83 cls 0
+83 rectfill 0 0 16 16 7
+83 spr 0 0 0
+84 cls 0
+84 rectfill 0 0 16 16 7
+84 spr 0 0 0
+85 cls 0
+85 rectfill 0 0 16 16 7
+85 spr 0 0 0
+86 cls 0
+86 rectfill 0 0 16 16 7
+86 spr 0 0 0
+87 cls 0
+87 rectfill 0 0 16 16 7
+87 spr 0 0 0
+88 cls 0
+88 rectfill 0 0 16 16 7
+88 spr 0 0 0
+89 cls 0
+89 rectfill 0 0 16 16 7
+89 spr 0 0 0
+90 cls 0
+90 rectfill 0 0 16 16 7
+90 spr 0 0 0
+91 cls 0
+91 rectfill 0 0 16 16 7
+91 spr 0 0 0
+92 cls 0
+92 rectfill 0 0 16 16 7
+92 spr 0 0 0
+93 cls 0
+93 rectfill 0 0 16 16 7
+93 spr 0 0 0
+94 cls 0
+94 rectfill 0 0 16 16 7
+94 spr 0 0 0
+95 cls 0
+95 rectfill 0 0 16 16 7
+95 spr 0 0 0
+96 cls 0
+96 rectfill 0 0 16 16 7
+96 spr 0 0 0
+97 cls 0
+97 rectfill 0 0 16 16 7
+97 spr 0 0 0
+98 cls 0
+98 rectfill 0 0 16 16 7
+98 spr 0 0 0
+99 cls 0
+99 rectfill 0 0 16 16 7
+99 spr 0 0 0
+100 cls 0
+100 rectfill 0 0 16 16 7
+100 spr 0 0 0
+101 cls 0
+101 rectfill 0 0 16 16 7
+101 spr 0 0 0
+102 cls 0
+102 rectfill 0 0 16 16 7
+102 spr 0 0 0
+103 cls 0
+103 rectfill 0 0 16 16 7
+103 spr 0 0 0
+104 cls 0
+104 rectfill 0 0 16 16 7
+104 spr 0 0 0
+105 cls 0
+105 rectfill 0 0 16 16 7
+105 spr 0 0 0
+106 cls 0
+106 rectfill 0 0 16 16 7
+106 spr 0 0 0
+107 cls 0
+107 rectfill 0 0 16 16 7
+107 spr 0 0 0
+108 cls 0
+108 rectfill 0 0 16 16 7
+108 spr 0 0 0
+109 cls 0
+109 rectfill 0 0 16 16 7
+109 spr 0 0 0
+110 cls 0
+110 rectfill 0 0 16 16 7
+110 spr 0 0 0
+111 cls 0
+111 rectfill 0 0 16 16 7
+111 spr 0 0 0
+112 cls 0
+112 rectfill 0 0 16 16 7
+112 spr 0 0 0
+113 cls 0
+113 rectfill 0 0 16 16 7
+113 spr 0 0 0
+114 cls 0
+114 rectfill 0 0 16 16 7
+114 spr 0 0 0
+115 cls 0
+115 rectfill 0 0 16 16 7
+115 spr 0 0 0
+116 cls 0
+116 rectfill 0 0 16 16 7
+116 spr 0 0 0
+117 cls 0
+117 rectfill 0 0 16 16 7
+117 spr 0 0 0
+118 cls 0
+118 rectfill 0 0 16 16 7
+118 spr 0 0 0
+119 cls 0
+119 rectfill 0 0 16 16 7
+119 spr 0 0 0
+120 cls 0
+120 rectfill 0 0 16 16 7
+120 spr 0 0 0
+121 cls 0
+121 rectfill 0 0 16 16 7
+121 spr 0 0 0
+122 cls 0
+122 rectfill 0 0 16 16 7
+122 spr 0 0 0
+123 cls 0
+123 rectfill 0 0 16 16 7
+123 spr 0 0 0
+124 cls 0
+124 rectfill 0 0 16 16 7
+124 spr 0 0 0
+125 cls 0
+125 rectfill 0 0 16 16 7
+125 spr 0 0 0
+126 cls 0
+126 rectfill 0 0 16 16 7
+126 spr 0 0 0
+127 cls 0
+127 rectfill 0 0 16 16 7
+127 spr 0 0 0
+128 cls 0
+128 rectfill 0 0 16 16 7
+128 spr 0 0 0
+129 cls 0
+129 rectfill 0 0 16 16 7
+129 spr 0 0 0
+130 cls 0
+130 rectfill 0 0 16 16 7
+130 spr 0 0 0
+131 cls 0
+131 rectfill 0 0 16 16 7
+131 spr 0 0 0
+132 cls 0
+132 rectfill 0 0 16 16 7
+132 spr 0 0 0
+133 cls 0
+133 rectfill 0 0 16 16 7
+133 spr 0 0 0
+134 cls 0
+134 rectfill 0 0 16 16 7
+134 spr 0 0 0
+135 cls 0
+135 rectfill 0 0 16 16 7
+135 spr 0 0 0
+136 cls 0
+136 rectfill 0 0 16 16 7
+136 spr 0 0 0
+137 cls 0
+137 rectfill 0 0 16 16 7
+137 spr 0 0 0
+138 cls 0
+138 rectfill 0 0 16 16 7
+138 spr 0 0 0
+139 cls 0
+139 rectfill 0 0 16 16 7
+139 spr 0 0 0
+140 cls 0
+140 rectfill 0 0 16 16 7
+140 spr 0 0 0
+141 cls 0
+141 rectfill 0 0 16 16 7
+141 spr 0 0 0
+142 cls 0
+142 rectfill 0 0 16 16 7
+142 spr 0 0 0
+143 cls 0
+143 rectfill 0 0 16 16 7
+143 spr 0 0 0
+144 cls 0
+144 rectfill 0 0 16 16 7
+144 spr 0 0 0
+145 cls 0
+145 rectfill 0 0 16 16 7
+145 spr 0 0 0
+146 cls 0
+146 rectfill 0 0 16 16 7
+146 spr 0 0 0
+147 cls 0
+147 rectfill 0 0 16 16 7
+147 spr 0 0 0
+148 cls 0
+148 rectfill 0 0 16 16 7
+148 spr 0 0 0
+149 cls 0
+149 rectfill 0 0 16 16 7
+149 spr 0 0 0
+150 cls 0
+150 rectfill 0 0 16 16 7
+150 spr 0 0 0
+151 cls 0
+151 rectfill 0 0 16 16 7
+151 spr 0 0 0
+152 cls 0
+152 rectfill 0 0 16 16 7
+152 spr 0 0 0
+153 cls 0
+153 rectfill 0 0 16 16 7
+153 spr 0 0 0
+154 cls 0
+154 rectfill 0 0 16 16 7
+154 spr 0 0 0
+155 cls 0
+155 rectfill 0 0 16 16 7
+155 spr 0 0 0
+156 cls 0
+156 rectfill 0 0 16 16 7
+156 spr 0 0 0
+157 cls 0
+157 rectfill 0 0 16 16 7
+157 spr 0 0 0
+158 cls 0
+158 rectfill 0 0 16 16 7
+158 spr 0 0 0
+159 cls 0
+159 rectfill 0 0 16 16 7
+159 spr 0 0 0
+160 cls 0
+160 rectfill 0 0 16 16 7
+160 spr 0 0 0
+161 cls 0
+161 rectfill 0 0 16 16 7
+161 spr 0 0 0
+162 cls 0
+162 rectfill 0 0 16 16 7
+162 spr 0 0 0
+163 cls 0
+163 rectfill 0 0 16 16 7
+163 spr 0 0 0
+164 cls 0
+164 rectfill 0 0 16 16 7
+164 spr 0 0 0
+165 cls 0
+165 rectfill 0 0 16 16 7
+165 spr 0 0 0
+166 cls 0
+166 rectfill 0 0 16 16 7
+166 spr 0 0 0
+167 cls 0
+167 rectfill 0 0 16 16 7
+167 spr 0 0 0
+168 cls 0
+168 rectfill 0 0 16 16 7
+168 spr 0 0 0
+169 cls 0
+169 rectfill 0 0 16 16 7
+169 spr 0 0 0
+170 cls 0
+170 rectfill 0 0 16 16 7
+170 spr 0 0 0
+171 cls 0
+171 rectfill 0 0 16 16 7
+171 spr 0 0 0
+172 cls 0
+172 rectfill 0 0 16 16 7
+172 spr 0 0 0
+173 cls 0
+173 rectfill 0 0 16 16 7
+173 spr 0 0 0
+174 cls 0
+174 rectfill 0 0 16 16 7
+174 spr 0 0 0
+175 cls 0
+175 rectfill 0 0 16 16 7
+175 spr 0 0 0
+176 cls 0
+176 rectfill 0 0 16 16 7
+176 spr 0 0 0
+177 cls 0
+177 rectfill 0 0 16 16 7
+177 spr 0 0 0
+178 cls 0
+178 rectfill 0 0 16 16 7
+178 spr 0 0 0
+179 cls 0
+179 rectfill 0 0 16 16 7
+179 spr 0 0 0
+180 cls 0
+180 rectfill 0 0 16 16 7
+180 spr 0 0 0
+181 cls 0
+181 rectfill 0 0 16 16 7
+181 spr 0 0 0
+182 cls 0
+182 rectfill 0 0 16 16 7
+182 spr 0 0 0
+183 cls 0
+183 rectfill 0 0 16 16 7
+183 spr 0 0 0
+184 cls 0
+184 rectfill 0 0 16 16 7
+184 spr 0 0 0
+185 cls 0
+185 rectfill 0 0 16 16 7
+185 spr 0 0 0
+186 cls 0
+186 rectfill 0 0 16 16 7
+186 spr 0 0 0
+187 cls 0
+187 rectfill 0 0 16 16 7
+187 spr 0 0 0
+188 cls 0
+188 rectfill 0 0 16 16 7
+188 spr 0 0 0
+189 cls 0
+189 rectfill 0 0 16 16 7
+189 spr 0 0 0
+190 cls 0
+190 rectfill 0 0 16 16 7
+190 spr 0 0 0
+191 cls 0
+191 rectfill 0 0 16 16 7
+191 spr 0 0 0
+192 cls 0
+192 rectfill 0 0 16 16 7
+192 spr 0 0 0
+193 cls 0
+193 rectfill 0 0 16 16 7
+193 spr 0 0 0
+194 cls 0
+194 rectfill 0 0 16 16 7
+194 spr 0 0 0
+195 cls 0
+195 rectfill 0 0 16 16 7
+195 spr 0 0 0
+196 cls 0
+196 rectfill 0 0 16 16 7
+196 spr 0 0 0
+197 cls 0
+197 rectfill 0 0 16 16 7
+197 spr 0 0 0
+198 cls 0
+198 rectfill 0 0 16 16 7
+198 spr 0 0 0
+199 cls 0
+199 rectfill 0 0 16 16 7
+199 spr 0 0 0
+200 cls 0
+200 rectfill 0 0 16 16 7
+200 spr 0 0 0
+201 cls 0
+201 rectfill 0 0 16 16 7
+201 spr 0 0 0
+202 cls 0
+202 rectfill 0 0 16 16 7
+202 spr 0 0 0
+203 cls 0
+203 rectfill 0 0 16 16 7
+203 spr 0 0 0
+204 cls 0
+204 rectfill 0 0 16 16 7
+204 spr 0 0 0
+205 cls 0
+205 rectfill 0 0 16 16 7
+205 spr 0 0 0
+206 cls 0
+206 rectfill 0 0 16 16 7
+206 spr 0 0 0
+207 cls 0
+207 rectfill 0 0 16 16 7
+207 spr 0 0 0
+208 cls 0
+208 rectfill 0 0 16 16 7
+208 spr 0 0 0
+209 cls 0
+209 rectfill 0 0 16 16 7
+209 spr 0 0 0
+210 cls 0
+210 rectfill 0 0 16 16 7
+210 spr 0 0 0
+211 cls 0
+211 rectfill 0 0 16 16 7
+211 spr 0 0 0
+212 cls 0
+212 rectfill 0 0 16 16 7
+212 spr 0 0 0
+213 cls 0
+213 rectfill 0 0 16 16 7
+213 spr 0 0 0
+214 cls 0
+214 rectfill 0 0 16 16 7
+214 spr 0 0 0
+215 cls 0
+215 rectfill 0 0 16 16 7
+215 spr 0 0 0
+216 cls 0
+216 rectfill 0 0 16 16 7
+216 spr 0 0 0
+217 cls 0
+217 rectfill 0 0 16 16 7
+217 spr 0 0 0
+218 cls 0
+218 rectfill 0 0 16 16 7
+218 spr 0 0 0
+219 cls 0
+219 rectfill 0 0 16 16 7
+219 spr 0 0 0
+220 cls 0
+220 rectfill 0 0 16 16 7
+220 spr 0 0 0
+221 cls 0
+221 rectfill 0 0 16 16 7
+221 spr 0 0 0
+222 cls 0
+222 rectfill 0 0 16 16 7
+222 spr 0 0 0
+223 cls 0
+223 rectfill 0 0 16 16 7
+223 spr 0 0 0
+224 cls 0
+224 rectfill 0 0 16 16 7
+224 spr 0 0 0
+225 cls 0
+225 rectfill 0 0 16 16 7
+225 spr 0 0 0
+226 cls 0
+226 rectfill 0 0 16 16 7
+226 spr 0 0 0
+227 cls 0
+227 rectfill 0 0 16 16 7
+227 spr 0 0 0
+228 cls 0
+228 rectfill 0 0 16 16 7
+228 spr 0 0 0
+229 cls 0
+229 rectfill 0 0 16 16 7
+229 spr 0 0 0
+230 cls 0
+230 rectfill 0 0 16 16 7
+230 spr 0 0 0
+231 cls 0
+231 rectfill 0 0 16 16 7
+231 spr 0 0 0
+232 cls 0
+232 rectfill 0 0 16 16 7
+232 spr 0 0 0
+233 cls 0
+233 rectfill 0 0 16 16 7
+233 spr 0 0 0
+234 cls 0
+234 rectfill 0 0 16 16 7
+234 spr 0 0 0
+235 cls 0
+235 rectfill 0 0 16 16 7
+235 spr 0 0 0
+236 cls 0
+236 rectfill 0 0 16 16 7
+236 spr 0 0 0
+237 cls 0
+237 rectfill 0 0 16 16 7
+237 spr 0 0 0
+238 cls 0
+238 rectfill 0 0 16 16 7
+238 spr 0 0 0
+239 cls 0
+239 rectfill 0 0 16 16 7
+239 spr 0 0 0
+240 cls 0
+240 rectfill 0 0 16 16 7
+240 spr 0 0 0
+241 cls 0
+241 rectfill 0 0 16 16 7
+241 spr 0 0 0
+242 cls 0
+242 rectfill 0 0 16 16 7
+242 spr 0 0 0
+243 cls 0
+243 rectfill 0 0 16 16 7
+243 spr 0 0 0
+244 cls 0
+244 rectfill 0 0 16 16 7
+244 spr 0 0 0
+245 cls 0
+245 rectfill 0 0 16 16 7
+245 spr 0 0 0
+246 cls 0
+246 rectfill 0 0 16 16 7
+246 spr 0 0 0
+247 cls 0
+247 rectfill 0 0 16 16 7
+247 spr 0 0 0
+248 cls 0
+248 rectfill 0 0 16 16 7
+248 spr 0 0 0
+249 cls 0
+249 rectfill 0 0 16 16 7
+249 spr 0 0 0
+250 cls 0
+250 rectfill 0 0 16 16 4
+250 spr 0 0 0
+251 cls 0
+251 rectfill 0 0 16 16 4
+251 spr 0 0 0
+252 cls 0
+252 rectfill 0 0 16 16 5
+252 spr 0 0 0
+253 cls 0
+253 rectfill 0 0 16 16 5
+253 spr 0 0 0
+254 cls 0
+254 rectfill 0 0 16 16 5
+254 spr 0 0 0
+255 cls 0
+255 rectfill 0 0 16 16 5
+255 spr 0 0 0
+256 cls 0
+256 rectfill 0 0 16 16 5
+256 spr 0 0 0
+257 cls 0
+257 rectfill 0 0 16 16 5
+257 spr 0 0 0
+258 cls 0
+258 rectfill 0 0 16 16 5
+258 spr 0 0 0
+259 cls 0
+259 rectfill 0 0 16 16 5
+259 spr 0 0 0
+260 cls 0
+260 rectfill 0 1 16 16 5
+260 spr 0 0 1
+261 cls 0
+261 rectfill 0 2 16 16 5
+261 spr 0 0 2
+262 cls 0
+262 rectfill 0 3 16 16 5
+262 spr 0 0 3
+263 cls 0
+263 rectfill 0 4 16 16 5
+263 spr 0 0 4
+264 cls 0
+264 rectfill 0 5 16 16 5
+264 spr 0 0 5
+265 cls 0
+265 rectfill 0 6 16 16 5
+265 spr 0 0 6
+266 cls 0
+266 rectfill 0 7 16 16 5
+266 spr 0 0 7
+267 cls 0
+267 rectfill 0 8 16 16 5
+267 spr 0 0 8
+268 cls 0
+268 rectfill 0 9 16 16 5
+268 spr 0 0 9
+269 cls 0
+269 rectfill 0 10 16 16 5
+269 spr 0 0 10
+270 cls 0
+270 rectfill 0 11 16 16 5
+270 spr 0 0 11
+271 cls 0
+271 rectfill 0 12 16 16 5
+271 spr 0 0 12
+272 cls 0
+272 rectfill 0 13 16 16 5
+272 spr 0 0 13
+273 cls 0
+273 rectfill 0 14 16 16 5
+273 spr 0 0 14
+274 cls 0
+274 rectfill 0 15 16 16 5
+274 spr 0 0 15
+275 cls 0
+275 rectfill 0 16 16 16 5
+275 spr 0 0 16
+276 cls 0
+276 rectfill 0 17 16 16 5
+276 spr 0 0 17
+277 cls 0
+277 rectfill 0 18 16 16 5
+277 spr 0 0 18
+278 cls 0
+278 rectfill 0 19 16 16 5
+278 spr 0 0 19
+279 cls 0
+279 rectfill 0 20 16 16 5
+279 spr 0 0 20
+280 cls 0
+280 rectfill 0 21 16 16 5
+280 spr 0 0 21
+281 cls 0
+281 rectfill 0 22 16 16 5
+281 spr 0 0 22
+282 cls 0
+282 rectfill 0 23 16 16 5
+282 spr 0 0 23
+283 cls 0
+283 rectfill 0 24 16 16 5
+283 spr 0 0 24
+284 cls 0
+284 rectfill 0 25 16 16 5
+284 spr 0 0 25
+285 cls 0
+285 rectfill 0 26 16 16 5
+285 spr 0 0 26
+286 cls 0
+286 rectfill 0 27 16 16 5
+286 spr 0 0 27
+287 cls 0
+287 rectfill 0 28 16 16 5
+287 spr 0 0 28
+288 cls 0
+288 rectfill 0 29 16 16 5
+288 spr 0 0 29
+289 cls 0
+289 rectfill 0 30 16 16 5
+289 spr 0 0 30
+290 cls 0
+290 rectfill 0 31 16 16 5
+290 spr 0 0 31
+291 cls 0
+291 rectfill 0 32 16 16 5
+291 spr 0 0 32
+292 cls 0
+292 rectfill 0 33 16 16 5
+292 spr 0 0 33
+293 cls 0
+293 rectfill 0 34 16 16 5
+293 spr 0 0 34
+294 cls 0
+294 rectfill 0 35 16 16 5
+294 spr 0 0 35
+295 cls 0
+295 rectfill 0 36 16 16 5
+295 spr 0 0 36
+296 cls 0
+296 rectfill 0 37 16 16 5
+296 spr 0 0 37
+297 cls 0
+297 rectfill 0 38 16 16 5
+297 spr 0 0 38
+298 cls 0
+298 rectfill 0 39 16 16 5
+298 spr 0 0 39
+299 cls 0
+299 rectfill 0 40 16 16 5
+299 spr 0 0 40

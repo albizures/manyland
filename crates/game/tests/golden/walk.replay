@@ -1,0 +1,6 @@
+# walk right, then press A
+seed 42
+0 right
+30 right a
+45 -
+120 end
