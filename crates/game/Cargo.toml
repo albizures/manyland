@@ -6,3 +6,15 @@ publish.workspace = true
 
 [dependencies]
 engine = { path = "../engine" }
+
+# Determinism bans (ADR-0001). Must stay byte-identical between engine and game.
+[lints.clippy]
+disallowed_types = "deny"
+disallowed_methods = "deny"
+float_arithmetic = "deny"
+float_cmp = "deny"
+as_conversions = "deny"
+default_numeric_fallback = "deny"
+
+[lints.rust]
+unexpected_cfgs = { level = "warn", check-cfg = ["cfg(ban_fixture)"] }
