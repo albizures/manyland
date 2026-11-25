@@ -28,10 +28,10 @@ A phase's full file is written at the gate before it, using what earlier phases 
 
 ## Tickets
 
-Work inside a phase lives in `.scratch/phase-NN/issues/NN-<slug>.md` (see `docs/agents/issue-tracker.md`).
+Work inside a phase lives in GitHub issues titled `Phase NN: <summary>` (see `docs/agents/issue-tracker.md`).
 
 ## Closing a phase
 
-1. When every exit criterion holds, the agent opens `.scratch/phase-NN/issues/99-close-phase.md` with `Status: ready-for-human`, listing evidence per criterion and a draft Outcome.
+1. When every exit criterion holds, the agent opens an issue `Phase NN: close phase` labelled `ready-for-human`, listing evidence per criterion and a draft Outcome.
 2. The human reviews, fills the phase file's Outcome, marks it `done` here, writes the next phase file, and moves the `AGENTS.md` pointer.
 3. Anything later phases must respect goes into an ADR, not into a closed phase's Outcome.
