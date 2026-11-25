@@ -1,6 +1,6 @@
 # 0001. Determinism is a core engine rule
 
-Status: accepted
+Status: accepted (amended 2026-11-24 with the RNG, overflow and enforcement bullets, from the phase 00 design session)
 
 ## Context
 
@@ -16,7 +16,7 @@ Same seed + same inputs → same frames, byte for byte.
 - `engine` and `game` use integers and fixed-point only; floats are excluded, because float results can differ across platforms and compiler settings.
 - The RNG algorithm is SplitMix64, hand-written in `engine` and pinned by a known-answer test. Library RNGs (e.g. `rand`'s `StdRng`) don't promise stable output across versions. Changing the algorithm needs a new ADR.
 - Integer overflow panics in every build profile (`overflow-checks = true` for all profiles in the workspace `Cargo.toml`). By default debug panics and release wraps, so the same inputs could give different results per profile; a panic is a bug that reproduces from the replay. Game state uses fixed-width integers, not `usize`, by convention.
-- The bans on floats, wall clock and hash-ordered collections are enforced by clippy config in `engine` and `game` only, run by `cargo test`.
+- The bans on floats, wall clock and hash-ordered collections are enforced in `engine` and `game` only, by clippy config plus a source scan for suffixed float literals, both run by `cargo test`.
 
 ## Consequences
 
