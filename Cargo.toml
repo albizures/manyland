@@ -6,3 +6,11 @@ resolver = "3"
 edition = "2024"
 version = "0.0.0"
 publish = false
+
+# ADR-0001: overflow panics in every profile, so a run can't depend on the
+# build profile. `test` and `bench` inherit from these two.
+[profile.dev]
+overflow-checks = true
+
+[profile.release]
+overflow-checks = true

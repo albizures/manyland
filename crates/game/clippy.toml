@@ -1,0 +1,14 @@
+# Determinism bans (ADR-0001). crates/engine and crates/game hold byte-identical copies;
+# crates/runner/tests/determinism_bans.rs checks that and that each ban fires.
+disallowed-types = [
+    { path = "f32", reason = "no floats (ADR-0001); use integers or fixed-point" },
+    { path = "f64", reason = "no floats (ADR-0001); use integers or fixed-point" },
+    { path = "std::collections::HashMap", reason = "hash-ordered (ADR-0001); use BTreeMap" },
+    { path = "std::collections::HashSet", reason = "hash-ordered (ADR-0001); use BTreeSet" },
+    { path = "std::time::Instant", reason = "no wall clock (ADR-0001); time is the tick count" },
+    { path = "std::time::SystemTime", reason = "no wall clock (ADR-0001); time is the tick count" },
+]
+disallowed-methods = [
+    { path = "std::time::Instant::now", reason = "no wall clock (ADR-0001); time is the tick count" },
+    { path = "std::time::SystemTime::now", reason = "no wall clock (ADR-0001); time is the tick count" },
+]
