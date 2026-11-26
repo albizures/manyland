@@ -173,6 +173,8 @@ fn scan_flags_float_literals_only() {
         "// 3.0 and 1e3 in a comment",
         "let j = name_f32;",
         "let k = 7u32;",
+        "let l = 1usize;",
+        "let m = 2isize;",
     ];
     for line in floats {
         assert_eq!(
@@ -314,15 +316,14 @@ fn float_literals(source: &str) -> Vec<(u64, String)> {
             while i < chars.len() {
                 let c = chars[i];
                 if is_ident(c) {
-                    let exponent = !radix_prefixed && matches!(c, 'e' | 'E');
+                    let signed = chars.get(i + 1).is_some_and(|c| matches!(c, '+' | '-'))
+                        && next_is_digit(&chars, i + 1);
+                    // `e` in a suffix (`1usize`) is not an exponent.
+                    let exponent = !radix_prefixed
+                        && matches!(c, 'e' | 'E')
+                        && (signed || next_is_digit(&chars, i) || chars.get(i + 1) == Some(&'_'));
                     float |= exponent;
-                    i += 1;
-                    if exponent
-                        && chars.get(i).is_some_and(|c| matches!(c, '+' | '-'))
-                        && next_is_digit(&chars, i)
-                    {
-                        i += 1;
-                    }
+                    i += if exponent && signed { 2 } else { 1 };
                 } else if c == '.' && !radix_prefixed && !float && starts_fraction(&chars, i) {
                     float = true;
                     i += 1;
