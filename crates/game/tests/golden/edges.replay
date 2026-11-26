@@ -1,0 +1,8 @@
+# Drive into the top-left corner and keep pushing; tap A twice.
+seed 7
+0 up left
+250 up left a
+251 up left
+252 up left a
+260 down
+300 end
