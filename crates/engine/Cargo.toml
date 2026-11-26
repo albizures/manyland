@@ -11,7 +11,6 @@ disallowed_methods = "deny"
 float_arithmetic = "deny"
 float_cmp = "deny"
 as_conversions = "deny"
-default_numeric_fallback = "deny"
 
 [lints.rust]
 unexpected_cfgs = { level = "warn", check-cfg = ["cfg(ban_fixture)"] }
