@@ -60,7 +60,7 @@ fn first_difference(path: &Path, expected: &str, actual: &str) -> String {
     let name = path.file_name().expect("file name").to_string_lossy();
     let mut expected_lines = expected.lines();
     let mut actual_lines = actual.lines();
-    for line in 1_u32.. {
+    for line in 1.. {
         match (expected_lines.next(), actual_lines.next()) {
             (None, None) => break,
             (e, a) if e == a => continue,

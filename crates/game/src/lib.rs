@@ -21,8 +21,8 @@ pub struct Square {
 impl Game for Square {
     fn init(ctx: &mut Ctx) -> Self {
         Square {
-            x: ctx.rng.range(0_i32..MAX_X + 1),
-            y: ctx.rng.range(0_i32..MAX_Y + 1),
+            x: ctx.rng.range(0..MAX_X + 1),
+            y: ctx.rng.range(0..MAX_Y + 1),
             color: random_color(ctx),
         }
     }
@@ -31,8 +31,8 @@ impl Game for Square {
         let input = &ctx.input;
         let dx = i32::from(input.held(Button::Right)) - i32::from(input.held(Button::Left));
         let dy = i32::from(input.held(Button::Down)) - i32::from(input.held(Button::Up));
-        self.x = (self.x + dx).clamp(0_i32, MAX_X);
-        self.y = (self.y + dy).clamp(0_i32, MAX_Y);
+        self.x = (self.x + dx).clamp(0, MAX_X);
+        self.y = (self.y + dy).clamp(0, MAX_Y);
         if input.pressed(Button::A) {
             self.color = random_color(ctx);
         }
@@ -47,7 +47,7 @@ impl Game for Square {
 
 /// A color from 1–15; 0 is the background.
 fn random_color(ctx: &mut Ctx) -> Color {
-    Color::try_from(ctx.rng.range(1_i32..16_i32)).expect("1..16 fits a color")
+    Color::try_from(ctx.rng.range(1..16)).expect("1..16 fits a color")
 }
 
 #[cfg(test)]
@@ -70,20 +70,11 @@ mod tests {
 
     #[test]
     fn starts_fully_on_screen_with_a_foreground_color() {
-        for seed in 0..200_u64 {
+        for seed in 0..200 {
             let square = Square::init(&mut ctx(seed));
-            assert!(
-                (0_i32..=MAX_X).contains(&square.x),
-                "seed {seed}: {square:?}"
-            );
-            assert!(
-                (0_i32..=MAX_Y).contains(&square.y),
-                "seed {seed}: {square:?}"
-            );
-            assert!(
-                (1_u8..16).contains(&square.color),
-                "seed {seed}: {square:?}"
-            );
+            assert!((0..=MAX_X).contains(&square.x), "seed {seed}: {square:?}");
+            assert!((0..=MAX_Y).contains(&square.y), "seed {seed}: {square:?}");
+            assert!((1..16).contains(&square.color), "seed {seed}: {square:?}");
         }
     }
 
@@ -95,15 +86,15 @@ mod tests {
             y: MAX_Y,
             color: 1,
         };
-        for _ in 0..3_u32 {
+        for _ in 0..3 {
             hold(&mut ctx, &[Button::Left, Button::Down]);
             square.update(&mut ctx);
         }
-        assert_eq!((square.x, square.y), (0_i32, MAX_Y));
+        assert_eq!((square.x, square.y), (0, MAX_Y));
 
         hold(&mut ctx, &[Button::Right, Button::Up]);
         square.update(&mut ctx);
-        assert_eq!((square.x, square.y), (1_i32, MAX_Y - 1_i32));
+        assert_eq!((square.x, square.y), (1, MAX_Y - 1));
     }
 
     #[test]

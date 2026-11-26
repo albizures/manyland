@@ -8,7 +8,8 @@
 //! - the real code obeys them: clippy is clean on `engine` and `game`;
 //! - `game` is held to the same rules: its config is byte-identical to `engine`'s.
 //!
-//! Clippy misses suffixed float literals (`2.5f64`), so a source scan covers them.
+//! A source scan flags every float literal (`1.5`, `1e3`, `2.5f64`): no clippy
+//! lint catches them all without also flagging typed integer literals.
 
 use std::collections::BTreeSet;
 use std::fs;
@@ -19,7 +20,7 @@ use std::process::Command;
 const BANNED_CRATES: [&str; 2] = ["engine", "game"];
 
 /// Marker kind for violations that only the source scan catches.
-const SCAN_SUFFIXED_FLOAT: &str = "scan::suffixed_float";
+const SCAN_FLOAT_LITERAL: &str = "scan::float_literal";
 
 const FIXTURE: &str = "crates/engine/src/ban_fixture.rs";
 
@@ -105,7 +106,7 @@ fn game_config_matches_engine() {
 }
 
 #[test]
-fn no_suffixed_float_literals_in_banned_crates() {
+fn no_float_literals_in_banned_crates() {
     let mut found = Vec::new();
     for krate in BANNED_CRATES {
         for path in rust_files(&root().join("crates").join(krate).join("src")) {
@@ -114,7 +115,7 @@ fn no_suffixed_float_literals_in_banned_crates() {
                 continue;
             }
             let source = fs::read_to_string(&path).expect("read source");
-            for (line, literal) in suffixed_floats(&source) {
+            for (line, literal) in float_literals(&source) {
                 found.push(format!("{}:{line}: `{literal}`", rel.display()));
             }
         }
@@ -131,14 +132,14 @@ fn scan_finds_every_marked_fixture_float() {
     let source = read(FIXTURE);
     let expected: BTreeSet<u64> = markers(&source)
         .into_iter()
-        .filter(|(_, lint)| lint == SCAN_SUFFIXED_FLOAT)
+        .filter(|(_, lint)| lint == SCAN_FLOAT_LITERAL)
         .map(|(line, _)| line)
         .collect();
     assert!(
         !expected.is_empty(),
-        "no `// ban: {SCAN_SUFFIXED_FLOAT}` markers in {FIXTURE}"
+        "no `// ban: {SCAN_FLOAT_LITERAL}` markers in {FIXTURE}"
     );
-    let found: BTreeSet<u64> = suffixed_floats(&source)
+    let found: BTreeSet<u64> = float_literals(&source)
         .into_iter()
         .map(|(l, _)| l)
         .collect();
@@ -146,14 +147,49 @@ fn scan_finds_every_marked_fixture_float() {
 }
 
 #[test]
-fn scan_flags_suffixed_floats_only() {
-    let source = "let a = 2.5f64;\nlet b = 1_f32;\nlet c = 1e3f64;\n\
-                  let d = 0x1f32;\nlet e = 7u32;\nlet f = x.0;\n// 3.0f32 in a comment\nlet g = name_f32;\n";
-    let found: Vec<u64> = suffixed_floats(source)
-        .into_iter()
-        .map(|(l, _)| l)
-        .collect();
-    assert_eq!(found, [1, 2, 3]);
+fn scan_flags_float_literals_only() {
+    let floats = [
+        "let a = 1.5;",
+        "let b = 1.;",
+        "let c = f(1.);",
+        "let d = 1e3;",
+        "let e = 1E-3;",
+        "let f = 2.5e+10;",
+        "let g = 2.5f64;",
+        "let h = 1_f32;",
+        "let i = 1e3f64;",
+    ];
+    let non_floats = [
+        "let a = 0x1f32;",
+        "let b = 0xE3;",
+        "let c = 0xe-3;",
+        "let d = 0o17;",
+        "let e = 0b1010;",
+        "let f = x.0;",
+        "let g = x.0.1;",
+        "for i in 0..5 {}",
+        "let h = 0..=5;",
+        "let i = 1.max(2);",
+        "// 3.0 and 1e3 in a comment",
+        "let j = name_f32;",
+        "let k = 7u32;",
+        "let l = 1usize;",
+        "let m = 2isize;",
+    ];
+    for line in floats {
+        assert_eq!(
+            float_literals(line).len(),
+            1,
+            "`{line}` has a float literal"
+        );
+    }
+    for line in non_floats {
+        let found = float_literals(line);
+        assert!(
+            found.is_empty(),
+            "`{line}` has no float literal, found {found:?}"
+        );
+    }
 }
 
 #[test]
@@ -253,9 +289,13 @@ fn markers(source: &str) -> Vec<(u64, String)> {
         .collect()
 }
 
-/// `(line, literal)` for each float literal with an `f32`/`f64` suffix,
-/// ignoring `//` comments. Hex, octal and binary literals are integers.
-fn suffixed_floats(source: &str) -> Vec<(u64, String)> {
+/// `(line, literal)` for each float literal, ignoring `//` comments.
+///
+/// A float literal is a decimal literal with a fractional part (`1.5`, `1.`),
+/// an exponent (`1e3`, `1E-3`) or an `f32`/`f64` suffix (`1f32`). Hex, octal
+/// and binary literals are integers; `x.0`, `0..5` and `1.max(2)` are not
+/// fractional parts.
+fn float_literals(source: &str) -> Vec<(u64, String)> {
     let mut found = Vec::new();
     for (n, line) in numbered(source) {
         let code = line.split_once("//").map_or(line, |(code, _)| code);
@@ -268,19 +308,44 @@ fn suffixed_floats(source: &str) -> Vec<(u64, String)> {
                 continue;
             }
             let start = i;
-            while i < chars.len()
-                && (is_ident(chars[i]) || chars[i] == '.' && next_is_digit(&chars, i))
-            {
-                i += 1;
+            let radix_prefixed = chars[i] == '0'
+                && chars
+                    .get(i + 1)
+                    .is_some_and(|c| matches!(c, 'x' | 'o' | 'b'));
+            let mut float = false;
+            while i < chars.len() {
+                let c = chars[i];
+                if is_ident(c) {
+                    let signed = chars.get(i + 1).is_some_and(|c| matches!(c, '+' | '-'))
+                        && next_is_digit(&chars, i + 1);
+                    // `e` in a suffix (`1usize`) is not an exponent.
+                    let exponent = !radix_prefixed
+                        && matches!(c, 'e' | 'E')
+                        && (signed || next_is_digit(&chars, i) || chars.get(i + 1) == Some(&'_'));
+                    float |= exponent;
+                    i += if exponent && signed { 2 } else { 1 };
+                } else if c == '.' && !radix_prefixed && !float && starts_fraction(&chars, i) {
+                    float = true;
+                    i += 1;
+                } else {
+                    break;
+                }
             }
             let literal: String = chars[start..i].iter().collect();
-            let radix_prefixed = ["0x", "0o", "0b"].iter().any(|p| literal.starts_with(p));
-            if !radix_prefixed && (literal.ends_with("f32") || literal.ends_with("f64")) {
+            if !radix_prefixed && (float || literal.ends_with("f32") || literal.ends_with("f64")) {
                 found.push((n, literal));
             }
         }
     }
     found
+}
+
+/// Whether the `.` at `i` belongs to the literal before it: not a range
+/// (`0..5`), a method call or field (`1.max(2)`, `1.e3`), as in Rust's lexer.
+fn starts_fraction(chars: &[char], i: usize) -> bool {
+    chars
+        .get(i + 1)
+        .is_none_or(|&c| c != '.' && c != '_' && !c.is_alphabetic())
 }
 
 fn is_ident(c: char) -> bool {

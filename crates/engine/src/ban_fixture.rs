@@ -10,9 +10,12 @@ pub fn floats(
     c: f64, // ban: clippy::disallowed_types
 ) -> bool {
     let _sum = a + a; // ban: clippy::float_arithmetic
-    let _fallback = 1.5; // ban: clippy::default_numeric_fallback
-    let _suffixed = 2.5f64; // ban: scan::suffixed_float
-    let _whole = 1f32; // ban: scan::suffixed_float
+    let _fraction = 1.5; // ban: scan::float_literal
+    let _trailing_dot = 1.; // ban: scan::float_literal
+    let _exponent = 1e3; // ban: scan::float_literal
+    let _signed_exponent = 1E-3; // ban: scan::float_literal
+    let _suffixed = 2.5f64; // ban: scan::float_literal
+    let _whole = 1f32; // ban: scan::float_literal
     b == c // ban: clippy::float_cmp
 }
 

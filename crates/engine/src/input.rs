@@ -50,7 +50,7 @@ impl Button {
             .iter()
             .position(|&b| b == self)
             .expect("every button is in ALL");
-        1_u8 << index
+        1 << index
     }
 }
 
