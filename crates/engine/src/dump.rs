@@ -30,11 +30,7 @@ mod tests {
         let frames = vec![
             vec![
                 DrawCommand::Cls { color: 1 },
-                DrawCommand::Spr {
-                    id: 2,
-                    x: 3_i32,
-                    y: 4_i32,
-                },
+                DrawCommand::Spr { id: 2, x: 3, y: 4 },
             ],
             vec![],
             vec![DrawCommand::Cls { color: 0 }],

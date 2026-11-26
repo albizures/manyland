@@ -52,16 +52,16 @@ mod tests {
     #[test]
     fn range_stays_in_bounds() {
         let mut rng = Rng::new(7);
-        for _ in 0..1000_u32 {
-            let v = rng.range(-3_i32..4_i32);
-            assert!((-3_i32..4_i32).contains(&v), "{v}");
+        for _ in 0..1000 {
+            let v = rng.range(-3..4);
+            assert!((-3..4).contains(&v), "{v}");
         }
-        assert_eq!(rng.range(i32::MIN..i32::MIN + 1_i32), i32::MIN);
+        assert_eq!(rng.range(i32::MIN..i32::MIN + 1), i32::MIN);
     }
 
     #[test]
     #[should_panic(expected = "empty range")]
     fn range_rejects_empty() {
-        Rng::new(0).range(5_i32..5_i32);
+        Rng::new(0).range(5..5);
     }
 }
