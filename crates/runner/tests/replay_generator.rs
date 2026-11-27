@@ -1,11 +1,13 @@
 //! The shared replay generator stays within its bounds and covers the edge
-//! cases property tests rely on. Uses a fixed seed so it never flakes.
+//! cases property tests rely on, and failing cases shrink to a minimal replay.
+//! Uses a fixed seed so it never flakes.
 
 mod support;
 
-use engine::Replay;
+use engine::{Button, Replay};
+use proptest::prop_assert;
 use proptest::strategy::{Strategy, ValueTree};
-use proptest::test_runner::TestRunner;
+use proptest::test_runner::{Config, RngAlgorithm, TestError, TestRng, TestRunner};
 use std::collections::HashSet;
 
 #[test]
@@ -44,5 +46,34 @@ fn generator_covers_edge_cases_within_bounds() {
         "never generated a run with no changes"
     );
     assert!(saw_repeat, "never repeated the held state");
-    assert_eq!(states.len(), 256, "button states covered");
+    assert_eq!(
+        states.len(),
+        1 << Button::ALL.len(),
+        "button states covered"
+    );
+}
+
+#[test]
+fn failing_replays_shrink_to_a_minimal_case() {
+    let config = Config {
+        failure_persistence: None,
+        ..Config::default()
+    };
+    let rng = TestRng::deterministic_rng(RngAlgorithm::ChaCha);
+    let mut runner = TestRunner::new_with_rng(config, rng);
+
+    // Fails whenever the replay has any change at all.
+    let result = runner.run(&support::replay(), |replay| {
+        prop_assert!(replay.changes.is_empty());
+        Ok(())
+    });
+
+    let Err(TestError::Fail(_, shrunk)) = result else {
+        panic!("property should fail: {result:?}");
+    };
+    assert_eq!(
+        shrunk.to_string(),
+        "seed 0\n0 -\n1 end\n",
+        "shrunk to:\n{shrunk}"
+    );
 }
