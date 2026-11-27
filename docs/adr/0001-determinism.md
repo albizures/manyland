@@ -1,6 +1,6 @@
 # 0001. Determinism is a core engine rule
 
-Status: accepted (amended 2026-11-24 with the RNG, overflow and enforcement bullets, from the phase 00 design session)
+Status: accepted (amended 2026-11-24 with the RNG, overflow and enforcement bullets, from the phase 00 design session; amended 2026-11-26 with the property-test bullet, from #12)
 
 ## Context
 

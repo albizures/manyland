@@ -10,7 +10,7 @@ Vision: `docs/VISION.md`. Read only when drafting or revising a phase.
 
 ## Testing
 
-Rules that must hold for every input get a property test (`proptest`, in `crates/runner/tests/`, using the shared generator in `support/`).
+Rules that must hold for every input get a property test.
 
 ## Agent skills
 
