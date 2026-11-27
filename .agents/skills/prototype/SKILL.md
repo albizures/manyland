@@ -23,32 +23,4 @@ The two branches produce very different artifacts, so getting this wrong wastes 
 3. **No persistence by default.** State lives in memory. Persistence is the thing the prototype is _checking_, not something it should depend on. If the question explicitly involves a database, hit a scratch DB or a local file with a clear "PROTOTYPE, wipe me" name.
 4. **Skip the polish.** No tests, no error handling beyond what makes the prototype _runnable_, no abstractions. The point is to learn something fast.
 5. **Surface the state.** After every action (logic) or on every variant switch (UI), print or render the full relevant state so the user can see what changed.
-6. **Capture it when done**, as [Capture](#capture) describes.
-
-## Capture
-
-The prototype itself is a **primary source**: it lives on a throwaway branch, out of main, next to a record of the answer (the verdict and the question it settled) that points to that branch.
-
-### As a Zaw prototype Task
-
-The prototype produces evidence only. Any validated decision lands later, through a Spec's implementation Tasks.
-
-1. **Build in a claimed worktree.** Before writing code, run `zaw worktree claim <task>` and work from `zaw worktree path <task>`. Read the checked-out branch from `zaw worktree claim <task> --json` (its `branch` field); Zaw names it, so never build the name. The claim needs a Task scoped to one project. A prototype under a global, project-set or epic Wayfinder can claim only when it was created with `--project <id>`; otherwise use the [unscoped path](#unscoped-prototype-task).
-2. **Push the branch.** Commit the prototype and run `git push -u origin HEAD` from the worktree, so it survives local cleanup and can be seen from any machine.
-3. **Record the outcome.** Add the outcome with `zaw comment <task>`, starting with:
-   ```
-   Prototype branch: <branch from claim --json> @ <sha> (origin)
-   Finding: <what it proved or ruled out>
-   ```
-   `<sha>` is the pushed commit, so the evidence can be found even if the branch moves.
-4. **Clean up the folder, keep the branch.** Run `zaw worktree release <task>`, then `zaw worktree cleanup <task> --delete-path`. The branch stays on origin as the reference.
-
-The prototype branch is reference only, under Wayfinders and Specs alike. It ends at the push: no PR, no merge, and no Task stacks on it. A Spec that relies on it links the outcome comment, and its implementation Tasks rebuild the decision properly on their own branches.
-
-#### Unscoped prototype Task
-
-A prototype with no single project scope has no repository to claim. If the question needs the real codebase, stop and tell the human to recreate the prototype with `--project <id>` for the target project. If the question is repository-free, build it as a standalone artifact (the [LOGIC.md](LOGIC.md) HTML file fits) in `<store>/prototypes/<task-id>/`, where `<store>` is `zaw store path`, and start the outcome comment with `Prototype artifact: <path>` in place of the branch line.
-
-### Standalone
-
-Fold any validated decision into the real code, commit the prototype to a throwaway branch, and leave a pointer to that branch, with the answer, on the implementation issue or in a commit. Main keeps only the validated decision.
+6. **Capture it when done.** Fold any validated decision into the real code, then capture the prototype itself as a **primary source**: commit it to a throwaway branch, out of main, and leave a context pointer to that branch on the implementation issue. Capture the answer too (the verdict and the question it settled) in the issue or a commit. The main branch keeps only the validated decision.
