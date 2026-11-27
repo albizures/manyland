@@ -7,6 +7,18 @@ edition = "2024"
 version = "0.0.0"
 publish = false
 
+# Lints for crates that inherit them (`graphics`, `runner`). `engine` and
+# `game` keep their own [lints] table for the ADR-0001 bans, so they repeat
+# the complexity lines. Thresholds and ban lists are in the root clippy.toml.
+[workspace.lints.clippy]
+# Complexity guardrails; exceptions take `#[expect(clippy::…, reason = "…")]`.
+cognitive_complexity = "deny"
+too_many_lines = "deny"
+excessive_nesting = "deny"
+# The ADR-0001 ban lists apply to `engine` and `game` only.
+disallowed_types = "allow"
+disallowed_methods = "allow"
+
 # ADR-0001: overflow panics in every profile, so a run can't depend on the
 # build profile. `test` and `bench` inherit from these two.
 [profile.dev]

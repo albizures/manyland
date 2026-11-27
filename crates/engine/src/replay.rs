@@ -92,14 +92,14 @@ impl Replay {
 
             let words: Vec<&str> = rest.split_whitespace().collect();
             if words == ["end"] {
-                if let Some((extra, _)) = lines.next() {
-                    return Err(error(extra, "nothing may follow the `end` line"));
-                }
-                return Ok(Replay {
-                    seed,
-                    changes,
-                    end: tick,
-                });
+                return match lines.next() {
+                    Some((extra, _)) => Err(error(extra, "nothing may follow the `end` line")),
+                    None => Ok(Replay {
+                        seed,
+                        changes,
+                        end: tick,
+                    }),
+                };
             }
             changes.push(Change {
                 tick,

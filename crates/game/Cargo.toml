@@ -7,13 +7,20 @@ publish.workspace = true
 [dependencies]
 engine = { path = "../engine" }
 
-# Determinism bans (ADR-0001). Must stay byte-identical between engine and game.
+# Determinism bans (ADR-0001); the lists are in the root clippy.toml.
+# This table must stay byte-identical between engine and game.
 [lints.clippy]
 disallowed_types = "deny"
 disallowed_methods = "deny"
 float_arithmetic = "deny"
 float_cmp = "deny"
 as_conversions = "deny"
+
+# Complexity guardrails; exceptions take `#[expect(clippy::…, reason = "…")]`.
+# Thresholds in the root clippy.toml. Keep in sync with [workspace.lints.clippy].
+cognitive_complexity = "deny"
+too_many_lines = "deny"
+excessive_nesting = "deny"
 
 [lints.rust]
 unexpected_cfgs = { level = "warn", check-cfg = ["cfg(ban_fixture)"] }

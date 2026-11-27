@@ -1,5 +1,13 @@
-# Determinism bans (ADR-0001). crates/engine and crates/game hold byte-identical copies;
-# crates/runner/tests/determinism_bans.rs checks that and that each ban fires.
+# Clippy settings for the whole workspace. Clippy reads only the nearest
+# clippy.toml, so no crate may add its own: settings would split.
+
+# Complexity thresholds (cognitive_complexity and too_many_lines use their
+# defaults: 25 and 100 lines).
+excessive-nesting-threshold = 4
+
+# Determinism bans (ADR-0001). The lists apply everywhere but bite only where
+# the lints are denied: `engine` and `game` deny them in their [lints] tables;
+# the workspace [lints] table (`graphics`, `runner`) allows them.
 disallowed-types = [
     { path = "f32", reason = "no floats (ADR-0001); use integers or fixed-point" },
     { path = "f64", reason = "no floats (ADR-0001); use integers or fixed-point" },

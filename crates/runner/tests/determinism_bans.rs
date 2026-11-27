@@ -1,12 +1,16 @@
 //! Enforces the determinism bans of ADR-0001 on `engine` and `game`.
 //!
-//! The bans live in `crates/{engine,game}/clippy.toml` and in each crate's
-//! `[lints]` table. These tests prove three things:
+//! The ban lists live in the root `clippy.toml` and are denied in the
+//! `[lints]` tables of `engine` and `game`. A ban is a lint `engine` denies
+//! that `[workspace.lints.clippy]` doesn't; the rest of `engine`'s table
+//! repeats the workspace lints. These tests prove four things:
 //!
-//! - the rules fire: clippy, run with `--cfg ban_fixture`, reports every
-//!   violation marked in `crates/engine/src/ban_fixture.rs`;
-//! - the real code obeys them: clippy is clean on `engine` and `game`;
-//! - `game` is held to the same rules: its config is byte-identical to `engine`'s.
+//! - the rules fire: every ban has a violation marked in
+//!   `crates/engine/src/ban_fixture.rs`, and clippy, run with
+//!   `--cfg ban_fixture`, reports every marked violation;
+//! - the real code obeys them: clippy is clean on the whole workspace;
+//! - `game` is held to the same rules: its `[lints]` table is byte-identical to `engine`'s;
+//! - the root `clippy.toml` is the only one, so no crate can bypass it.
 //!
 //! A source scan flags every float literal (`1.5`, `1e3`, `2.5f64`): no clippy
 //! lint catches them all without also flagging typed integer literals.
@@ -24,6 +28,9 @@ const SCAN_FLOAT_LITERAL: &str = "scan::float_literal";
 
 const FIXTURE: &str = "crates/engine/src/ban_fixture.rs";
 
+const WORKSPACE_LINTS: &str = "[workspace.lints.clippy]";
+const CRATE_LINTS: &str = "[lints.clippy]";
+
 #[test]
 fn clippy_reports_every_marked_fixture_violation() {
     let expected: BTreeSet<(u64, String)> = markers(&read(FIXTURE))
@@ -35,7 +42,7 @@ fn clippy_reports_every_marked_fixture_violation() {
         "no `// ban: clippy::…` markers in {FIXTURE}"
     );
 
-    let run = clippy(&["engine"], Some("ban_fixture"), "fixture");
+    let run = clippy(&["-p", "engine"], Some("ban_fixture"), "fixture");
     let reported: BTreeSet<(u64, String)> = run
         .diagnostics
         .iter()
@@ -55,28 +62,28 @@ fn clippy_reports_every_marked_fixture_violation() {
 }
 
 #[test]
-fn every_denied_lint_has_a_fixture_marker() {
+fn every_ban_has_a_fixture_marker() {
     let marked: BTreeSet<String> = markers(&read(FIXTURE))
         .into_iter()
         .map(|(_, lint)| lint)
         .collect();
-    let denied = denied_clippy_lints(&read("crates/engine/Cargo.toml"));
+    let bans = bans();
     assert!(
-        !denied.is_empty(),
-        "no denied clippy lints in crates/engine/Cargo.toml"
+        !bans.is_empty(),
+        "crates/engine/Cargo.toml denies no lints beyond [workspace.lints.clippy]"
     );
-    for lint in denied {
+    for lint in bans {
         let code = format!("clippy::{lint}");
         assert!(
             marked.contains(&code),
-            "`{code}` is denied but {FIXTURE} has no violation marked `// ban: {code}`"
+            "`{code}` is a ban but {FIXTURE} has no violation marked `// ban: {code}`"
         );
     }
 }
 
 #[test]
-fn engine_and_game_pass_clippy() {
-    let run = clippy(&BANNED_CRATES, None, "clean");
+fn workspace_passes_clippy() {
+    let run = clippy(&["--workspace"], None, "clean");
     let errors: Vec<String> = run
         .diagnostics
         .iter()
@@ -85,23 +92,65 @@ fn engine_and_game_pass_clippy() {
         .collect();
     assert!(
         run.success && errors.is_empty(),
-        "`engine`/`game` break a determinism ban (ADR-0001):\n{}\n{}",
+        "clippy fails on the workspace (determinism bans are ADR-0001):\n{}\n{}",
         errors.join("\n"),
         run.stderr
     );
 }
 
 #[test]
-fn game_config_matches_engine() {
-    assert_eq!(
-        read("crates/game/clippy.toml"),
-        read("crates/engine/clippy.toml"),
-        "crates/game/clippy.toml must be byte-identical to crates/engine/clippy.toml (ADR-0001)"
-    );
+fn game_lints_match_engine() {
     assert_eq!(
         lints_table(&read("crates/game/Cargo.toml")),
         lints_table(&read("crates/engine/Cargo.toml")),
         "the `[lints]` table of crates/game/Cargo.toml must be byte-identical to engine's (ADR-0001)"
+    );
+}
+
+#[test]
+fn root_clippy_toml_is_the_only_one() {
+    assert!(
+        root().join("clippy.toml").is_file(),
+        "the root clippy.toml holds the ADR-0001 ban lists and is missing"
+    );
+    // Clippy reads only the nearest clippy.toml, so a crate's own file would
+    // replace the root one, ban lists included.
+    let crate_configs: Vec<String> = fs::read_dir(root().join("crates"))
+        .expect("read crates/")
+        .map(|entry| entry.expect("dir entry").path().join("clippy.toml"))
+        .filter(|path| path.exists())
+        .map(|path| {
+            path.strip_prefix(root())
+                .expect("under root")
+                .display()
+                .to_string()
+        })
+        .collect();
+    assert!(
+        crate_configs.is_empty(),
+        "crate-level clippy.toml files bypass the root one: {crate_configs:?}"
+    );
+}
+
+#[test]
+fn engine_repeats_the_workspace_lints() {
+    let workspace = read("Cargo.toml");
+    let engine = read("crates/engine/Cargo.toml");
+    let workspace_denied = lints_at_level(&workspace, WORKSPACE_LINTS, "deny");
+    assert!(
+        !workspace_denied.is_empty(),
+        "no denied lints in {WORKSPACE_LINTS}"
+    );
+    let engine_denied = lints_at_level(&engine, CRATE_LINTS, "deny");
+    let missing: Vec<&String> = workspace_denied.difference(&engine_denied).collect();
+    assert!(
+        missing.is_empty(),
+        "crates/engine/Cargo.toml must deny what {WORKSPACE_LINTS} denies; missing: {missing:?}"
+    );
+    assert_eq!(
+        lints_at_level(&engine, CRATE_LINTS, "warn"),
+        lints_at_level(&workspace, WORKSPACE_LINTS, "warn"),
+        "crates/engine/Cargo.toml must warn on the same lints as {WORKSPACE_LINTS}"
     );
 }
 
@@ -225,13 +274,14 @@ struct Diagnostic {
     rendered: String,
 }
 
-/// Runs `cargo clippy` on `packages` (all targets), optionally with a `--cfg`,
-/// in its own target dir so it neither waits on nor invalidates the outer build.
-fn clippy(packages: &[&str], cfg: Option<&str>, target: &str) -> ClippyRun {
+/// Runs `cargo clippy` on the packages `scope` selects (`-p engine`,
+/// `--workspace`; all targets), optionally with a `--cfg`, in its own target
+/// dir so it neither waits on nor invalidates the outer build.
+fn clippy(scope: &[&str], cfg: Option<&str>, target: &str) -> ClippyRun {
     let mut command = Command::new(env!("CARGO"));
     command
         .arg("clippy")
-        .args(packages.iter().flat_map(|p| ["-p", p]))
+        .args(scope)
         .args(["--all-targets", "--message-format=json", "--target-dir"])
         .arg(
             Path::new(env!("CARGO_TARGET_TMPDIR"))
@@ -307,37 +357,46 @@ fn float_literals(source: &str) -> Vec<(u64, String)> {
                 i += 1;
                 continue;
             }
-            let start = i;
-            let radix_prefixed = chars[i] == '0'
-                && chars
-                    .get(i + 1)
-                    .is_some_and(|c| matches!(c, 'x' | 'o' | 'b'));
-            let mut float = false;
-            while i < chars.len() {
-                let c = chars[i];
-                if is_ident(c) {
-                    let signed = chars.get(i + 1).is_some_and(|c| matches!(c, '+' | '-'))
-                        && next_is_digit(&chars, i + 1);
-                    // `e` in a suffix (`1usize`) is not an exponent.
-                    let exponent = !radix_prefixed
-                        && matches!(c, 'e' | 'E')
-                        && (signed || next_is_digit(&chars, i) || chars.get(i + 1) == Some(&'_'));
-                    float |= exponent;
-                    i += if exponent && signed { 2 } else { 1 };
-                } else if c == '.' && !radix_prefixed && !float && starts_fraction(&chars, i) {
-                    float = true;
-                    i += 1;
-                } else {
-                    break;
-                }
+            let (end, float) = scan_number(&chars, i);
+            if float {
+                found.push((n, chars[i..end].iter().collect()));
             }
-            let literal: String = chars[start..i].iter().collect();
-            if !radix_prefixed && (float || literal.ends_with("f32") || literal.ends_with("f64")) {
-                found.push((n, literal));
-            }
+            i = end;
         }
     }
     found
+}
+
+/// Scans the numeric literal starting at `start`: returns the index just past
+/// it and whether it is a float literal.
+fn scan_number(chars: &[char], start: usize) -> (usize, bool) {
+    let radix_prefixed = chars[start] == '0'
+        && chars
+            .get(start + 1)
+            .is_some_and(|c| matches!(c, 'x' | 'o' | 'b'));
+    let mut float = false;
+    let mut i = start;
+    while i < chars.len() {
+        let c = chars[i];
+        if is_ident(c) {
+            let signed = chars.get(i + 1).is_some_and(|c| matches!(c, '+' | '-'))
+                && next_is_digit(chars, i + 1);
+            // `e` in a suffix (`1usize`) is not an exponent.
+            let exponent = !radix_prefixed
+                && matches!(c, 'e' | 'E')
+                && (signed || next_is_digit(chars, i) || chars.get(i + 1) == Some(&'_'));
+            float |= exponent;
+            i += if exponent && signed { 2 } else { 1 };
+        } else if c == '.' && !radix_prefixed && !float && starts_fraction(chars, i) {
+            float = true;
+            i += 1;
+        } else {
+            break;
+        }
+    }
+    let literal: String = chars[start..i].iter().collect();
+    let suffixed = literal.ends_with("f32") || literal.ends_with("f64");
+    (i, !radix_prefixed && (float || suffixed))
 }
 
 /// Whether the `.` at `i` belongs to the literal before it: not a range
@@ -360,13 +419,24 @@ fn numbered(source: &str) -> impl Iterator<Item = (u64, &str)> {
     (1..).zip(source.lines())
 }
 
-/// Names of the lints set to `"deny"` under `[lints.clippy]`.
-fn denied_clippy_lints(manifest: &str) -> Vec<String> {
-    toml_section(manifest, "[lints.clippy]")
+/// The determinism bans: lints `engine` denies beyond the workspace's.
+fn bans() -> BTreeSet<String> {
+    let workspace = lints_at_level(&read("Cargo.toml"), WORKSPACE_LINTS, "deny");
+    lints_at_level(&read("crates/engine/Cargo.toml"), CRATE_LINTS, "deny")
+        .difference(&workspace)
+        .cloned()
+        .collect()
+}
+
+/// Names of the lints set to `level` in the section with this header.
+fn lints_at_level(manifest: &str, header: &str, level: &str) -> BTreeSet<String> {
+    let level = format!("\"{level}\"");
+    toml_section(manifest, header)
         .unwrap_or_default()
         .lines()
+        .filter(|l| !l.trim_start().starts_with('#'))
         .filter_map(|l| l.split_once('='))
-        .filter(|(_, level)| level.trim() == "\"deny\"")
+        .filter(|(_, value)| value.trim() == level)
         .map(|(name, _)| name.trim().to_string())
         .collect()
 }
