@@ -1,0 +1,22 @@
+# cargo-mutants (https://mutants.rs): `cargo mutants` from the workspace root.
+# Not a gate: run it by hand after changing `engine` or `game`, and turn each
+# missed mutant into a test (or a golden case). `--in-diff` limits a run to a
+# change.
+
+# Mutate only the deterministic crates; `graphics` and `runner` are thin.
+examine_globs = ["crates/engine/src/**", "crates/game/src/**"]
+# Compiled only under `--cfg ban_fixture`; its mutants can never be caught.
+exclude_globs = ["crates/engine/src/ban_fixture.rs"]
+
+# Golden tests live in `game` and the property tests in `runner`, so a
+# mutant in `engine` must face the whole workspace's tests. (The unmutated
+# baseline still tests only the mutated packages; that's expected.)
+test_workspace = true
+
+# The clippy ban tests rebuild in their own target dir on every mutant and
+# can't catch a behavior change. The source scan stays: it's cheap.
+additional_cargo_test_args = [
+    "--",
+    "--skip", "clippy_reports_every_marked_fixture_violation",
+    "--skip", "engine_and_game_pass_clippy",
+]
