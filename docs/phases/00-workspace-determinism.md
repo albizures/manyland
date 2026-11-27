@@ -68,3 +68,5 @@ All resolved in a grilling session (2026-11-24); answers recorded in place below
 ## Outcome
 
 _Filled in at close._
+
+- **Mutation testing, outside Boundaries** (2026-11-26, human-approved): `.cargo/mutants.toml` configures `cargo mutants` for `engine` and `game`, run by hand (not a gate). The first run missed 3 of 100 viable mutants in `input.rs` (`ButtonState::with` on a held button, `Input::released`), now covered by tests; the rest are caught, including with property tests skipped, so proptest's random seed stays unpinned.

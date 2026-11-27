@@ -156,6 +156,36 @@ mod tests {
     }
 
     #[test]
+    fn adding_a_held_button_changes_nothing() {
+        let a = ButtonState::NONE.with(Button::A);
+        assert_eq!(a.with(Button::A), a);
+        let twice: ButtonState = [Button::A, Button::A].into_iter().collect();
+        assert_eq!(twice, a);
+    }
+
+    /// Exhaustive over every (previous, current) state pair and button: a
+    /// button is pressed or released exactly when its held state changed,
+    /// pressed means held now, released means not held now.
+    #[test]
+    fn pressed_and_released_hold_for_every_transition() {
+        for before in 0..=u8::MAX {
+            for now in 0..=u8::MAX {
+                let mut input = Input::default();
+                input.advance(ButtonState(before));
+                input.advance(ButtonState(now));
+                for b in Button::ALL {
+                    let (pressed, released) = (input.pressed(b), input.released(b));
+                    let changed = ButtonState(before).held(b) != ButtonState(now).held(b);
+                    let case = format!("before {before:#010b}, now {now:#010b}, {b:?}");
+                    assert_eq!(pressed || released, changed, "{case}");
+                    assert!(!pressed || input.held(b), "pressed but not held: {case}");
+                    assert!(!released || !input.held(b), "released but held: {case}");
+                }
+            }
+        }
+    }
+
+    #[test]
     fn displays_in_replay_syntax() {
         let state: ButtonState = [Button::A, Button::Right].into_iter().collect();
         assert_eq!(state.to_string(), "right a");
