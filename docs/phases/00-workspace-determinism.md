@@ -13,6 +13,7 @@ Context: every later phase (procgen, replays, saves, agent self-checking) rests 
 - [x] Each tick records a frame description; it serializes to text, one draw command per line.
 - [x] Golden test: the same seed + replay produce a byte-identical command dump; changing either changes the dump.
 - [x] `engine` and `game` are checked to use no wall-clock time, no unordered collections, and no floats.
+- [x] Property tests check, over generated replays, that runs are deterministic and panic-free, that replays round-trip through text, and that the parser never panics.
 - [x] ADR-0001 and ADR-0002 hold for the code as built (update them if building taught something).
 
 ## Non-goals
@@ -62,6 +63,7 @@ All resolved in a grilling session (2026-11-24); answers recorded in place below
   - and a test asserts `game`'s `clippy.toml` and `[lints]` table are byte-identical to `engine`'s (so `game` declares `ban_fixture` too).
 - **Overflow**: `overflow-checks = true` in every profile (ADR-0001).
 - **Toolchain**: pinned to `1.98.0` with `clippy` and `rustfmt`.
+- **Property tests** (#12, 2026-11-26): `proptest` 1 as a dev-dependency of `runner` only; `engine` and `game` gain no dependency. They live in `crates/runner/tests/` (no ban applies there) and share one generator, `support::replay()`: any `u64` seed, `end` in `0..=600`, up to 32 changes at strictly increasing ticks below `end`, any of the 256 button states, repeats allowed. Properties, all through the public replay API: two runs give the same dump and neither panics; a replay's printed text parses back unchanged; `Replay::parse` never panics on any string. `engine` implements `Display` for `Replay` (canonical text: fixed button order, `-` for none, no comments), pinned by a unit test; failures print the shrunk replay as text, ready to save as a golden `.replay`. Random seed each run; `*.proptest-regressions` files are committed. No sensitivity properties (they don't hold for `0 end`; the golden tests cover them) and no `Square`-specific ones.
 
 ## Outcome
 

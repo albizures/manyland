@@ -8,6 +8,10 @@ Phase 00: `docs/phases/00-workspace-determinism.md`. Read before planning, picki
 
 Vision: `docs/VISION.md`. Read only when drafting or revising a phase.
 
+## Testing
+
+Rules that must hold for every input get a property test (`proptest`, in `crates/runner/tests/`, using the shared generator in `support/`).
+
 ## Agent skills
 
 ### Issue tracker
