@@ -9,11 +9,11 @@ Context: every later phase (procgen, replays, saves, agent self-checking) rests 
 ## Exit criteria
 
 - [x] Workspace builds with `crates/{engine,graphics,game,runner}`; `game` has no dependency on `graphics`, enforced by a check (e.g. a test over `cargo metadata`).
-- [ ] The engine runs N ticks headless from a seed and an input replay file in a text format.
-- [ ] Each tick records a frame description; it serializes to text, one draw command per line.
-- [ ] Golden test: the same seed + replay produce a byte-identical command dump; changing either changes the dump.
-- [ ] `engine` and `game` are checked to use no wall-clock time, no unordered collections, and no floats.
-- [ ] ADR-0001 and ADR-0002 hold for the code as built (update them if building taught something).
+- [x] The engine runs N ticks headless from a seed and an input replay file in a text format.
+- [x] Each tick records a frame description; it serializes to text, one draw command per line.
+- [x] Golden test: the same seed + replay produce a byte-identical command dump; changing either changes the dump.
+- [x] `engine` and `game` are checked to use no wall-clock time, no unordered collections, and no floats.
+- [x] ADR-0001 and ADR-0002 hold for the code as built (update them if building taught something).
 
 ## Non-goals
 
@@ -55,7 +55,7 @@ All resolved in a grilling session (2026-11-24); answers recorded in place below
 - **Placeholder game**: a 16×16 square at a seeded random position fully on screen (x in `0..=224`, y in `0..=144`, ADR-0003); the D-pad moves it 1 px/tick, clamped to the screen; pressing A picks a random color 1–15. Draws `cls 0`, `rectfill`, `spr 0`.
 - **`runner`**: `runner --replay <file>` prints the command dump to stdout. `--renderer` arrives with the first real renderer.
 - **Golden tests**: `crates/game/tests/golden/<name>.replay` + `<name>.dump`, compared by a hand-rolled test harness (no `insta`); `BLESS=1 cargo test` rewrites the `.dump` files. Plus: changing the seed changes the dump; changing one input changes the dump.
-- **Bans**: `crates/{engine,game}/clippy.toml` (`disallowed-types`: `f32`, `f64`, `std::collections::HashMap`, `std::collections::HashSet`, `std::time::Instant`, `std::time::SystemTime`; `disallowed-methods`: `std::time::Instant::now`, `std::time::SystemTime::now`) plus, in both crates' `Cargo.toml`, `[lints.clippy]` denying `disallowed_types`, `disallowed_methods`, `float_arithmetic`, `float_cmp`, `as_conversions`, `default_numeric_fallback`. No root `clippy.toml` (a crate file replaces it rather than merging, and alone it would hit `graphics`/`runner`). A source-scan test in `runner` catches suffixed float literals (`2.5f64`), which no lint flags. Accepted gap: a float, `HashMap` or `Instant` returned by a dependency and bound without a written type is flagged only when used (ADR-0001 already requires dependencies to follow the rules).
+- **Bans**: `crates/{engine,game}/clippy.toml` (`disallowed-types`: `f32`, `f64`, `std::collections::HashMap`, `std::collections::HashSet`, `std::time::Instant`, `std::time::SystemTime`; `disallowed-methods`: `std::time::Instant::now`, `std::time::SystemTime::now`) plus, in both crates' `Cargo.toml`, `[lints.clippy]` denying `disallowed_types`, `disallowed_methods`, `float_arithmetic`, `float_cmp`, `as_conversions`. No root `clippy.toml` (a crate file replaces it rather than merging, and alone it would hit `graphics`/`runner`). A source-scan test in `runner` flags every float literal in both crates (fractional `2.5`, exponent `1e3`, suffixed `2f64`), since no lint catches them all; it replaced `default_numeric_fallback`, which also flagged typed integer literals (#11). Accepted gap: a float, `HashMap` or `Instant` returned by a dependency and bound without a written type is flagged only when used (ADR-0001 already requires dependencies to follow the rules).
 - **Ban gate**: `cargo test` is the only gate (no CI this phase). A `runner` test runs `cargo clippy` in its own `--target-dir`:
   - with `RUSTFLAGS="--cfg ban_fixture"`, over `crates/engine/src/ban_fixture.rs` (`#[cfg(ban_fixture)] mod ban_fixture;`, with `ban_fixture` declared under `[lints.rust] unexpected_cfgs`), whose lines carry `// ban: <lint>` markers; each marker must be reported;
   - without it, over `engine` and `game`, which must be clean;
