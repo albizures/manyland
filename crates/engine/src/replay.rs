@@ -49,6 +49,18 @@ impl fmt::Display for ParseError {
 
 impl std::error::Error for ParseError {}
 
+/// Canonical replay text: `seed`, one line per change with buttons in
+/// [`Button::ALL`] order (or `-`), then `<end> end`. No comments.
+impl fmt::Display for Replay {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        writeln!(f, "seed {}", self.seed)?;
+        for change in &self.changes {
+            writeln!(f, "{} {}", change.tick, change.state)?;
+        }
+        writeln!(f, "{} end", self.end)
+    }
+}
+
 impl Replay {
     pub fn parse(text: &str) -> Result<Replay, ParseError> {
         let mut lines = (1..)
@@ -198,6 +210,38 @@ mod tests {
                     state: ButtonState::NONE
                 },
             ]
+        );
+    }
+
+    #[test]
+    fn prints_canonical_text() {
+        let replay = Replay {
+            seed: 7,
+            changes: vec![
+                Change {
+                    tick: 0,
+                    state: state(&[Button::Select, Button::Up, Button::A]),
+                },
+                Change {
+                    tick: 12,
+                    state: ButtonState::NONE,
+                },
+                Change {
+                    tick: 30,
+                    state: state(&[
+                        Button::B,
+                        Button::Left,
+                        Button::Down,
+                        Button::Start,
+                        Button::Right,
+                    ]),
+                },
+            ],
+            end: 90,
+        };
+        assert_eq!(
+            replay.to_string(),
+            "seed 7\n0 up a select\n12 -\n30 down left right b start\n90 end\n"
         );
     }
 
